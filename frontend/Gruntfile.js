@@ -150,7 +150,7 @@ module.exports = function(grunt) {
 						expand: true,
 						compress: true,
 						flatten: true,
-						cwd: 'src/style/novo',
+						cwd: 'src/style',
 						src: '**/*.less',
 						dest: tmp,
 						ext: '.css'
