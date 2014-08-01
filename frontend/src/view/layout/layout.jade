@@ -20,19 +20,8 @@ html(lang='pt-br')
 
 				div.row
 
-					include menu
 					article.col-xs-10
-
-						div.cloak
-					
-							article.message-box.fade(ng-show="msg.show",class="{{msg.fade}}")
-								div.alert.alert-dismissable(class="alert-{{msg.tipo}}")
-									button.close(type="button", ng-click="msg.show = false") ×
-									span.message-icon.glyphicon(ng-class="{'glyphicon-ok-sign' : msg.tipo == 'success', 'glyphicon-exclamation-sign' : msg.tipo != 'success'}")
-									span {{msg.texto}}
 
 						div(ng-view)
 
-					+MensagemForum()
-					
 		include footer
