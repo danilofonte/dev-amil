@@ -1,0 +1,3 @@
+#define sequencia de carregamento do plugin
+
+301:plugins.JsonBinderPlugin
