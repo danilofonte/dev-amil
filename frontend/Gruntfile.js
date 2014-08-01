@@ -15,16 +15,7 @@ module.exports = function(grunt) {
 					
 
 				}
-			},
-
-			inicial: {
-				options: {
-					pretty: false
-				},
-				files: {
-					
-				}
-			}
+			}			
 		},
 
 		copy: {
@@ -204,7 +195,4 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('default', [/*'bower:install'*/ 'jshint', 'jade:all', 'copy', 'less', 'ngmin','uglify', 'concat', 'clean']);
 
-	grunt.registerTask('inicial', ['jshint', 'jade:inicial', 'copy', 'less', 'ngmin','uglify', 'concat', 'clean']);
-
-	grunt.registerTask('inicial.jade', ['jade:inicial', 'copy', 'less', 'concat', 'clean']);
 };
