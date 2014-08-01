@@ -22,8 +22,7 @@ module.exports = function(grunt) {
 					pretty: false
 				},
 				files: {
-					'<%=backendPath%>/home/inicial.html': 'src/view/home/inicial.jade',
-					'<%=backendPath%>/tecnico/telaInicial/inicial.html': 'src/view/tecnico/telaInicial/inicial.jade'
+					
 				}
 			}
 		},
@@ -112,25 +111,12 @@ module.exports = function(grunt) {
 				]
 			}
 		},
-		concat: {
-			//js: {
-			//	separator: ';',
-			//	src: [tmpLib + "/jquery.min.js",
-			//		tmpLib + "/jquery-ui.min.js",
-			//		tmpLib + "/angular.min.js",
-			//		tmpLib + "/angular-sanitize.min.js",
-			//		tmpLib + "/angular-resource.min.js",
-			//		tmpLib + "/jquery.qrcode.min.js",
-			//		tmpLib + "/jquery.maskedinput.min.js",
-			//		tmpLib + "/underscore-min.js"],
-			//	dest: '<%=path%>/js/lib.js'
-			//},
+		concat: {			
 			css: {
 				src: [
 					'bower_components/select2/select2.css',
 					'bower_components/jqplot/jquery.jqplot.css',
-					'bower_components/nvd3/nv.d3.css',
-					'bower_components/bower-bootstrap-slider/css/slider.css',
+					'bower_components/nvd3/nv.d3.css',					
 					tmp + '*.css'],
 				dest: '<%=backendPath%>/css/main.css'
 			}
