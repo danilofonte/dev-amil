@@ -17,7 +17,6 @@ public class DateDeserializer implements JsonDeserializer<Date> {
     public static final String DATE_FORMAT = Play.configuration.getProperty("date.format");
     private static SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
 
-    @Override
     public Date deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
     return parseDate(json.getAsJsonPrimitive().getAsString());
     }
