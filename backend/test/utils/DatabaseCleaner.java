@@ -11,15 +11,12 @@ public class DatabaseCleaner {
 	public static void cleanAll() {
 		
 	
-		
 		Fixtures.delete(
 				HistoricoPartida.class,
 				Arma.class,
 				Jogador.class,
 				Partida.class
-				);
-		
-		
+				);		
 	}
-
+	
 }

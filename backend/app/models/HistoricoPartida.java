@@ -26,6 +26,7 @@ public class HistoricoPartida extends Model {
 	@JoinColumn(name="id_jogador_executor_acao")
 	public Jogador jogadorExecutouAcao;
 	
+	@Required
 	@ManyToOne
 	@JoinColumn(name="id_jogador_alvo_acao")
 	public Jogador jogadorRecebeuAcao;
