@@ -9,10 +9,11 @@ import play.data.validation.Unique;
 import play.db.jpa.Model;
 import utils.ValidationUtil;
 import enums.TipoArmaEnum;
-import exceptions.ValidationException;
 
 @Entity
 public class Arma extends Model {
+	
+	private static final Long INFINITA = 0L;
 
 	@Required
 	@Unique
@@ -39,6 +40,7 @@ public class Arma extends Model {
 	public Arma update(String nome, Long municao) {
 
 		this.nome = nome;
+		this.maxMunicao = municao;
 		this.merge();
 
 		return this.save();

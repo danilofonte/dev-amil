@@ -11,6 +11,8 @@ import utils.ValidationUtil;
 @Entity
 public class Jogador extends Model {
 	
+	private static final String JOGADOR_IA = "<WORLD>";
+	
 	@Unique
 	@Required
 	@Column(name="tx_nome")
