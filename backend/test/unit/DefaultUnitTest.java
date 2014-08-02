@@ -15,19 +15,9 @@ import play.test.UnitTest;
 
 public class DefaultUnitTest extends UnitTest {
 
-	private static final String TEST_SESSION_ID = "TEST_SESSION_ID";
-
 	@Test
 	public void doNothing() {
 		assertTrue(true);
-	}
-
-	@Before
-	public void enableFilters() {
-		((Session) JPA.em().getDelegate()).enableFilter("ativosGeoCar")
-				.setParameter("ativo", true);
-		((Session) JPA.em().getDelegate()).enableFilter("ativosAnalise")
-				.setParameter("ativo", true);
 	}
 
 	@Before

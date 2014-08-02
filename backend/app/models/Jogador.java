@@ -3,6 +3,7 @@ package models;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
+import play.data.validation.Required;
 import play.data.validation.Unique;
 import play.db.jpa.Model;
 import utils.ValidationUtil;
@@ -11,6 +12,7 @@ import utils.ValidationUtil;
 public class Jogador extends Model {
 	
 	@Unique
+	@Required
 	@Column(name="tx_nome")
 	public String nome;
 
