@@ -37,6 +37,24 @@ public class Arma extends Model {
 
 	}
 
+	public static Arma iniciarArma(String nome, Long maxMunicao,TipoArmaEnum tipo) {
+
+		Arma arma = Arma.find("nome", nome).first();
+
+		if (arma == null) {
+			
+			arma = new Arma();
+			
+			arma.nome = nome;
+			arma.tipo = tipo;
+			arma.maxMunicao = maxMunicao != null ? maxMunicao : INFINITA;
+			
+			return arma.save();
+		} else
+			return arma;
+
+	}
+	
 	public Arma update(String nome, Long municao) {
 
 		this.nome = nome;
@@ -46,5 +64,26 @@ public class Arma extends Model {
 		return this.save();
 
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Arma other = (Arma) obj;
+		if (nome == null) {
+			if (other.nome != null)
+				return false;
+		} else if (!nome.equals(other.nome))
+			return false;
+		if (tipo != other.tipo)
+			return false;
+		return true;
+	}
+	
+	
 
 }

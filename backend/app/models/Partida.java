@@ -1,9 +1,5 @@
 package models;
 
-import enums.TipoAcaoEnum;
-import exceptions.ValidationException;
-import groovy.transform.TimedInterrupt;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,20 +8,19 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
-import org.hibernate.annotations.Cascade;
-
-import net.sf.oval.constraint.DateRange;
 import net.sf.oval.constraint.MaxLength;
 import net.sf.oval.constraint.MinLength;
 import play.data.validation.Required;
 import play.data.validation.Unique;
 import play.db.jpa.Model;
 import utils.ValidationUtil;
+import enums.TipoAcaoEnum;
+import exceptions.ValidationException;
 
 @Entity
 public class Partida extends Model {
@@ -49,7 +44,19 @@ public class Partida extends Model {
 	public List<Jogador> jogadores;
 
 	@OneToMany(targetEntity = HistoricoPartida.class, mappedBy = "partida", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	public List<HistoricoPartida> historico;
+	public List<HistoricoPartida> historico;	
+	
+	@Transient
+	public Jogador jogador;
+	
+	public Partida() {
+		super();
+	}
+
+	public Partida(String identificadorPartida) {
+		super();
+		this.identificadorPartida = identificadorPartida;
+	}
 
 	public Partida save() {
 

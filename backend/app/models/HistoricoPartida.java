@@ -26,7 +26,6 @@ public class HistoricoPartida extends Model {
 	@ManyToOne
 	public Jogador jogadorExecutouAcao;
 
-	@Required
 	@ManyToOne
 	public Jogador jogadorRecebeuAcao;
 
@@ -44,6 +43,36 @@ public class HistoricoPartida extends Model {
 
 	@Transient
 	public String identificadorPartida;
+	
+	
+
+	public HistoricoPartida() {
+		super();
+	}
+
+	public HistoricoPartida(Date dataAcao) {
+		super();
+		this.dataAcao = dataAcao;
+	}
+	
+		
+
+	public HistoricoPartida(Date dataAcao,	TipoAcaoEnum tipo) {
+		super();
+		this.dataAcao = dataAcao;
+		this.tipo = tipo;
+	}
+
+	public HistoricoPartida(Jogador jogadorExecutouAcao,
+			Jogador jogadorRecebeuAcao, Arma arma, Date dataAcao,
+			TipoAcaoEnum tipo) {
+		super();
+		this.jogadorExecutouAcao = jogadorExecutouAcao;
+		this.jogadorRecebeuAcao = jogadorRecebeuAcao;
+		this.arma = arma;
+		this.dataAcao = dataAcao;
+		this.tipo = tipo;
+	}
 
 	public HistoricoPartida save() {
 
@@ -66,7 +95,7 @@ public class HistoricoPartida extends Model {
 
 		if (this.tipo.equals(TipoAcaoEnum.KILLED)
 				&& (this.jogadorExecutouAcao == null
-						|| jogadorRecebeuAcao == null || this.arma == null))
+						|| jogadorRecebeuAcao == null))
 			throw new ValidationException();
 
 	}
