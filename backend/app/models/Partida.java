@@ -1,5 +1,7 @@
 package models;
 
+import enums.TipoAcaoEnum;
+import exceptions.ValidationException;
 import groovy.transform.TimedInterrupt;
 
 import java.util.ArrayList;
@@ -29,8 +31,8 @@ import utils.ValidationUtil;
 public class Partida extends Model {
 
 	@Unique
-	@MaxLength(6)
-	@MinLength(6)
+	@MaxLength(8)
+	@MinLength(8)
 	@Column(name = "idt_u_partida")
 	public String identificadorPartida;
 
@@ -43,10 +45,10 @@ public class Partida extends Model {
 	@Column(name = "dt_fim")
 	public Date dataFim;
 
-	@OneToMany(targetEntity = Jogador.class, fetch = FetchType.LAZY)
+	@OneToMany(targetEntity = Jogador.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	public List<Jogador> jogadores;
 
-	@OneToMany(targetEntity = HistoricoPartida.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(targetEntity = HistoricoPartida.class, mappedBy = "partida", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	public List<HistoricoPartida> historico;
 
 	public Partida save() {
@@ -58,33 +60,73 @@ public class Partida extends Model {
 
 	public Partida atualizarHistorico(List<HistoricoPartida> historico) {
 
-		if (historico != null && !historico.isEmpty())
-			this.historico = historico;
-		
-		this.merge();
+		for (HistoricoPartida historicoPartida : historico) {
+			this.atualizarHistorico(historicoPartida);
+		}
 
-		return super.save();
+		return this.save();
 	}
 
-	public Partida atualizarJogadores(List<Jogador> jogadores) {
+	private Partida atualizarHistorico(HistoricoPartida historicoPartida) {
 
-		if (jogadores != null && !jogadores.isEmpty())
-			this.jogadores = jogadores;
-		
-		this.merge();
+		if (this.historico == null)
+			this.historico = new ArrayList<HistoricoPartida>();
 
-		return super.save();
+		this.historico.add(historicoPartida);
+
+		historicoPartida.inserirHistoricoPartida(this);
+
+		return this.save();
+	}
+
+	public Partida atualizarListaJogadores(List<Jogador> jogadores) {
+
+		if (this.dataFim == null) {
+
+			if (this.jogadores == null)
+				this.jogadores = new ArrayList<Jogador>();
+
+			if (jogadores != null && !jogadores.isEmpty())
+				this.jogadores.addAll(jogadores);
+
+			return this.save();
+
+		}
+
+		return this;
 
 	}
-	
-	public Partida finalizarPartida(Date dataFim) {
-		
-		this.dataFim = dataFim;
-		this.merge();
-		
-		return super.save();
-		
-		
+
+	public Partida finalizarPartida(HistoricoPartida historicoPartida) {
+
+		if (historicoPartida.tipo.equals(TipoAcaoEnum.ENDED)) {
+			this.dataFim = historicoPartida.dataAcao;
+			
+			this.save();
+
+			this.atualizarHistorico(historicoPartida);
+
+			return this;
+
+		} else
+			throw new ValidationException();
+
+	}
+
+	public Partida iniciarPartida(HistoricoPartida historicoPartida) {
+
+		if (historicoPartida.tipo.equals(TipoAcaoEnum.STARTED)) {
+			this.dataInicio = historicoPartida.dataAcao;
+			
+			this.save();
+
+			this.atualizarHistorico(historicoPartida);
+
+			return this;
+
+		} else
+			throw new ValidationException();
+
 	}
 
 }

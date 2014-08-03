@@ -1,5 +1,8 @@
 package unit;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import models.Arma;
 import models.HistoricoPartida;
 import models.Jogador;
@@ -8,12 +11,13 @@ import models.Partida;
 import org.junit.Before;
 import org.junit.Test;
 
+import enums.TipoAcaoEnum;
+import exceptions.ValidationException;
 import utils.DatabaseCleaner;
 import builder.ArmaBuilder;
 import builder.HistoricoPartidaBuilder;
 import builder.JogadorBuilder;
 import builder.PartidaBuilder;
-import exceptions.ValidationException;
 
 public class PartidaTest {
 
@@ -30,12 +34,11 @@ public class PartidaTest {
 			DatabaseCleaner.cleanAll();
 			commitTransaction();
 
-			arma1 = new ArmaBuilder().padrao().build().save();
-			arma2 = new ArmaBuilder().padrao().build().save();
+			arma1 = new ArmaBuilder().padrao().save();
+			arma2 = new ArmaBuilder().padrao().save();
 
-			jogador1 = new JogadorBuilder().padrao().build().save();
-			jogador2 = new JogadorBuilder().padrao().comNome("João").build()
-					.save();
+			jogador1 = new JogadorBuilder().padrao().save();
+			jogador2 = new JogadorBuilder().padrao().comNome("João").save();
 
 			historico1 = new HistoricoPartidaBuilder().padrao()
 					.comJogadorAlvoAcao(jogador1)
@@ -45,20 +48,84 @@ public class PartidaTest {
 					.comJogadorExecutorAcao(jogador2).comArma(arma1).build();
 
 			partida1 = new PartidaBuilder().padrao().build();
+			
+			partida2= new PartidaBuilder().padrao().build();
 
 		}
 
 		@Test
 		public void deveIniciarPartida() {
 
-			assertNotNull(partida1.save());
+			historico1.tipo = TipoAcaoEnum.STARTED;
+
+			assertNotNull(partida1.iniciarPartida(historico1));
+
+			assertTrue(partida1.historico.size() == 1);
+
+		}
+
+		@Test
+		public void deveAtualizarHistoricoDaPartida() {
+
+			partida1.save();
+
+			List<HistoricoPartida> lista = new ArrayList<HistoricoPartida>();
+			lista.add(historico1);
+			lista.add(historico2);
+
+			partida1.atualizarHistorico(lista);
+
+			assertTrue(HistoricoPartida.find("partida.id", partida1.id).fetch()
+					.size() == 2);
+
+			assertTrue(partida1.historico.size() == 2);
+
+		}
+
+		@Test
+		public void deveAtualizarListaDeJogadoresDaPartida() {
+
+			partida1.save();
+
+			List<Jogador> lista = new ArrayList<Jogador>();
+			lista.add(jogador1);
+			lista.add(jogador2);
+
+			partida1.atualizarListaJogadores(lista);
+
+			assertTrue(partida1.jogadores.size() == 2);
+
+		}
+
+		@Test
+		public void deveFinalizarPartida() {
+
+			historico1.tipo = TipoAcaoEnum.ENDED;
+
+			assertNotNull(partida1.finalizarPartida(historico1));
+			
+			assertTrue(partida1.dataFim != null);
+
+			assertTrue(partida1.historico.size() == 1);
+
+		}
+
+		@Test(expected = ValidationException.class)
+		public void naoDeveFinalizarPartidaComTipoAcaoErrado() {
+
+			partida1.finalizarPartida(historico1);
 
 		}
 		
-		@Test
-		public void deveAtualizarHistoricoDaPartida() {
+		@Test(expected = ValidationException.class)
+		public void naoDeveIniciarPartidaJaIniciada() {
 			
-			partida1
+			historico1.tipo = TipoAcaoEnum.STARTED;
+			historico2.tipo = TipoAcaoEnum.STARTED;
+			
+			assertNotNull(partida1.iniciarPartida(historico1));					
+			partida2.iniciarPartida(historico2);
+			assertTrue(partida2.dataInicio == null);
 			
 		}
 

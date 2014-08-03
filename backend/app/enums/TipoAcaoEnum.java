@@ -2,6 +2,8 @@ package enums;
 
 public enum TipoAcaoEnum {
 
-	KILLED;
+	KILLED,
+	ENDED,
+	STARTED;
 	
 }

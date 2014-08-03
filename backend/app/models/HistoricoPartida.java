@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import play.data.validation.Required;
 import play.db.jpa.Model;
@@ -18,23 +20,20 @@ public class HistoricoPartida extends Model {
 	
 	@Required
 	@ManyToOne
-	@JoinColumn(name="id_partida")
 	public Partida partida;
 	
 	@Required
 	@ManyToOne
-	@JoinColumn(name="id_jogador_executor_acao")
 	public Jogador jogadorExecutouAcao;
 	
 	@Required
 	@ManyToOne
-	@JoinColumn(name="id_jogador_alvo_acao")
 	public Jogador jogadorRecebeuAcao;
 	
 	@ManyToOne
-	@JoinColumn(name="id_arma")
 	public Arma arma;
 	
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="dt_acao")
 	public Date dataAcao;
 	
@@ -47,6 +46,14 @@ public class HistoricoPartida extends Model {
 		ValidationUtil.validate(this);
 		
 		return super.save();
+	}
+	
+	public HistoricoPartida inserirHistoricoPartida(Partida partida) {
+		
+		if (this.partida == null)
+			this.partida = partida;
+		
+		return this.save();
 	}
 
 }

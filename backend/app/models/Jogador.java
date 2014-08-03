@@ -17,6 +17,9 @@ public class Jogador extends Model {
 	@Required
 	@Column(name="tx_nome")
 	public String nome;
+	
+	@Column(name="vl_awrds")
+	public Long awards;
 
 	public Jogador save() {
 		
