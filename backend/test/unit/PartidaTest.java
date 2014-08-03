@@ -101,6 +101,7 @@ public class PartidaTest {
 		public void deveFinalizarPartida() {
 
 			historico1.tipo = TipoAcaoEnum.ENDED;
+			historico1.identificadorPartida = partida1.identificadorPartida;
 
 			assertNotNull(partida1.finalizarPartida(historico1));
 			
@@ -112,6 +113,15 @@ public class PartidaTest {
 
 		@Test(expected = ValidationException.class)
 		public void naoDeveFinalizarPartidaComTipoAcaoErrado() {
+
+			partida1.finalizarPartida(historico1);
+
+		}
+		
+		@Test(expected = ValidationException.class)
+		public void naoDeveFinalizarPartidaErrada() {
+			
+			historico1.tipo = TipoAcaoEnum.ENDED;
 
 			partida1.finalizarPartida(historico1);
 

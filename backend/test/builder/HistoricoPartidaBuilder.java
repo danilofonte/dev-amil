@@ -64,6 +64,14 @@ public class HistoricoPartidaBuilder extends
 		return this;
 
 	}
+	
+	public HistoricoPartidaBuilder comIdentificadorPartida(String identificadorPartida) {
+
+		model.identificadorPartida = identificadorPartida;
+
+		return this;
+
+	}
 
 	public HistoricoPartida save() {
 
@@ -75,5 +83,6 @@ public class HistoricoPartidaBuilder extends
 		return model.save();
 
 	}
+	
 
 }

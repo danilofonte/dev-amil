@@ -99,7 +99,7 @@ public class Partida extends Model {
 
 	public Partida finalizarPartida(HistoricoPartida historicoPartida) {
 
-		if (historicoPartida.tipo.equals(TipoAcaoEnum.ENDED)) {
+		if (historicoPartida.tipo.equals(TipoAcaoEnum.ENDED) && historicoPartida.identificadorPartida != null && this.identificadorPartida.equals(historicoPartida.identificadorPartida)) {
 			this.dataFim = historicoPartida.dataAcao;
 			
 			this.save();
