@@ -49,12 +49,6 @@ module.exports = function(grunt) {
 						cwd: 'bower_components/d3pie/d3pie',
 						src: ['d3pie.min.js'],
 						dest: '<%=backendPath%>/js/lib/d3pie'
-					},{
-						expand: true,
-						flatten: true,
-						cwd: 'bower_components/angular-ui-select2',
-						src: ['src/select2.js'],
-						dest: '<%=backendPath%>/js/lib/angular-ui-select2'
 					},
 					{
 						expand: true,
@@ -106,9 +100,7 @@ module.exports = function(grunt) {
 		concat: {			
 			css: {
 				src: [
-					'bower_components/select2/select2.css',
 					'bower_components/jqplot/jquery.jqplot.css',
-					'bower_components/nvd3/nv.d3.css',					
 					tmp + '*.css'],
 				dest: '<%=backendPath%>/css/main.css'
 			}

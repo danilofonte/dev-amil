@@ -1,6 +1,6 @@
 (function($) {
 
-	var modulo = angular.module('appModule', ['ngRoute', 'ui.select2', 'textAngular']);
+	var modulo = angular.module('appModule', ['ngRoute']);
 
 	modulo.config(['$routeProvider',
 
@@ -14,7 +14,13 @@
 				.otherwise({
 					redirectTo: '/'
 				});
-	}]);
+	}])
+
+  .controller('AppCtrl', ["$scope", "$rootScope", "$location", "$timeout", "config"
+    function($scope, $rootScope, $location, $timeout, config) {
+
+
+  }]);
 
 	
 

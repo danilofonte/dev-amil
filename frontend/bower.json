@@ -12,10 +12,8 @@
     "angular-resource": "1.2.16",
     "angular-route": "1.2.16",
     "jquery-placeholder": "~2.0.7",
-    "angular-ui-select2": "*",
     "angular-ui-chart": "latest", 
     "components-font-awesome": "4.1.0",
-    "textAngular": "1.2.1",
     "d3": "3.4.8",
     "d3pie": "0.1.3"
   }
