@@ -2,9 +2,30 @@
 
 	var modulo = angular.module('appModule');
 
-	modulo.controller('InicialCtrl', function($scope, $rootScope, partidaService) {
+	modulo.controller('InicialCtrl', function($scope, $rootScope, partidaService, jogadorService) {
 
     $scope.partida = {};
+
+    $scope.jogador = {};
+
+    
+
+    $scope.vizualizarDadosJogador = function() {
+
+      jogadorService.getJogador($scope.jogador,function(data){
+
+        $scope.dadosJogador = data;
+
+      });
+
+      jogadorService.getStreak($scope.jogador,$scope.partida,function(data){
+
+        $scope.streak = data;
+
+      });
+
+
+    };
 
 
     partidaService.list(function(data){
@@ -14,6 +35,13 @@
     });
 
     $scope.atualizarGraficoGeral = function() {
+
+      jogadorService.list($scope.partida,function(data){
+
+        $scope.jogadores = data;
+
+      });
+
 
       partidaService.armaFavoritaMelhorJogador($scope.partida,function(data){
 
@@ -58,7 +86,7 @@
            }       
         });
 
-        plot1 = $.jqplot('chart1', [qtds], {
+        plot1 = $.jqplot('chart1',[qtds], {
             // Only animate if we're not using excanvas (not in IE 7 or IE 8)..
             animate: !$.jqplot.use_excanvas,
             seriesDefaults:{

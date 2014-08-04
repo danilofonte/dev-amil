@@ -22,12 +22,27 @@
     })();
     (function() {
         var modulo = angular.module("appModule");
-        modulo.controller("InicialCtrl", [ "$scope", "$rootScope", "partidaService", function($scope, $rootScope, partidaService) {
+        modulo.controller("InicialCtrl", [ "$scope", "$rootScope", "partidaService", "jogadorService", function($scope, $rootScope, partidaService, jogadorService) {
             $scope.partida = {};
+            $scope.jogador = {};
+            $scope.vizualizarDadosJogador = function() {
+                jogadorService.getJogador($scope.jogador, function(data) {
+                    $scope.dadosJogador = data;
+                });
+                jogadorService.getStreak($scope.jogador, $scope.partida, function(data) {
+                    $scope.streak = data;
+                });
+            };
             partidaService.list(function(data) {
                 $scope.partidas = data;
             });
             $scope.atualizarGraficoGeral = function() {
+                jogadorService.list($scope.partida, function(data) {
+                    $scope.jogadores = data;
+                });
+                partidaService.armaFavoritaMelhorJogador($scope.partida, function(data) {
+                    $scope.arma = data;
+                });
                 partidaService.mortesPorJogador($scope.partida, function(data) {
                     $scope.mortes = data;
                     var mortes = [];
@@ -88,9 +103,34 @@
                     });
                 });
             };
-            partidaService.armaFavoritaMelhorJogador(idPartida, function(data) {
-                $scope.arma = data;
-            });
+        } ]);
+    })();
+    (function() {
+        var modulo = angular.module("appModule");
+        modulo.service("jogadorService", [ "$http", "$rootScope", "config", function($http, $rootScope, config) {
+            var service = {};
+            service.list = function(idPartida, successCallback, errorCallback) {
+                $http({
+                    method: "GET",
+                    url: config.BASE_URL + "jogadores/partida/" + idPartida,
+                    cache: true
+                }).success(successCallback).error(function(data) {});
+            };
+            service.getJogador = function(idJogador, successCallback, errorCallback) {
+                $http({
+                    method: "GET",
+                    url: config.BASE_URL + "jogadores/" + idJogador,
+                    cache: true
+                }).success(successCallback).error(function(data) {});
+            };
+            service.getStreak = function(idJogador, idPartida, successCallback, errorCallback) {
+                $http({
+                    method: "GET",
+                    url: config.BASE_URL + "jogadores/" + idJogador + "/streak/" + idPartida,
+                    cache: true
+                }).success(successCallback).error(function(data) {});
+            };
+            return service;
         } ]);
     })();
     (function() {

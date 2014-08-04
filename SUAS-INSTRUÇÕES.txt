@@ -1,2 +1,21 @@
-Coloque aqui suas instruções ou comentários que ache útil/relevantes para possamos ler 
-quando estivermos avaliando a sua solução
+#Instalando Play FrameWork
+acessar a URL: http://downloads.typesafe.com/play/1.2.7/play-1.2.7.zip
+Descompactar o arquivo em uma pasta da sua preferência
+adicionar o playframework ao claspath do sistema.
+
+#criar banco de dados
+instalar banco de dados mysql
+criar banco de dados: dev_amil e dev_amil_test
+
+#caso queira modificar alguma configuração acessar o arquivo application.conf no diretorio backend/conf
+
+#grunt
+acessar o diretório backend
+executar o comando: npm install grunt
+execurar o comando: bower install
+executar o comando: grunt
+
+#rodando aplicação:
+acessar o diretório backend
+comando: play run #modo dev
+comando: play test #modo teste

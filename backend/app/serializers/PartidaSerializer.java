@@ -16,6 +16,8 @@ public class PartidaSerializer {
 
 		partidaSerializer = new JSONSerializer().include("id", "identificadorPartida").exclude("*").prettyPrint(prettyPrint);
 		
+		viewSerializer = new JSONSerializer().include("nome", "qtd").exclude("*").prettyPrint(prettyPrint);
+		
 		armaViewSerializer = new JSONSerializer().include("nome", "qtd","nomeJogador").exclude("*").prettyPrint(prettyPrint);
 
 	}

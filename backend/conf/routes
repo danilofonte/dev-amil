@@ -15,4 +15,8 @@ GET     /public/                                staticDir:public
 
 GET /partidas									PartidasController.list
 GET /mortes/{idPartida}							PartidasController.estatisticaMortes
-GET /arma/idPartida								PartidasController.armaMaisUsada
+GET /arma/{idPartida}								PartidasController.armaMaisUsada
+
+GET /jogadores/partida/{idPartida}									JogadoresController.list
+GET /jogadores/{idJogador}						JogadoresController.getJogador
+GET /jogadores/{idJogador}/streak/{idPartida} JogadoresController.getStreak

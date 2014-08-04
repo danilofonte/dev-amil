@@ -100,7 +100,7 @@ public class Jogador extends Model {
 
 	public void atualizarAwards() {
 		
-		this.atualizrPorSobrevivencia();
+		this.atualizarPorSobrevivencia();
 
 		this.atualizarPorKills();
 
@@ -108,7 +108,7 @@ public class Jogador extends Model {
 
 	}
 	
-	public void atualizrPorSobrevivencia() {
+	public void atualizarPorSobrevivencia() {
 		
 		Long mortes = 0L;
 		
@@ -171,10 +171,10 @@ public class Jogador extends Model {
 		
 		for (HistoricoPartida historico : partida.historico) {
 			
-			if (historico.jogadorExecutouAcao.equals(this)) 
+			if (historico.jogadorExecutouAcao != null && historico.jogadorExecutouAcao.equals(this)) 
 				atualStreak += 1;				
 			
-			else if (historico.jogadorRecebeuAcao.equals(this))
+			else if (historico.jogadorRecebeuAcao!= null && historico.jogadorRecebeuAcao.equals(this))
 				atualStreak = 0L;
 			
 			ultimoStreak = ultimoStreak <= atualStreak ? atualStreak : ultimoStreak;

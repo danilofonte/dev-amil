@@ -10,8 +10,28 @@ div(ng-controller="InicialCtrl")
 				div#pie1
 				label.control-label Estatisca de Mortes:
 				div#chart1
-				label.control-label Arma mais Usada pelo mlhor jogador
-				label.control-label Nome Arma: {{arma.nome}}
-				label.control-label Qtd uso: {{arma.qtd}}
+					
+	div.row
+		div.col-md-6.col-lg-6
+				label.control-label Arma mais Usada pelo melhor jogador
+				br
 				label.control-label Nome Jogador: {{arma.nomeJogador}}
+				br
+				label.control-label Nome Arma: {{arma.nome}}
+				br
+				label.control-label Qtd uso: {{arma.qtd}}
+				
+
+	div.row
+		div.col-md-6.col-lg-6
+			div.form-group
+				label.control-label Jogador:
+				select.form-control(ng-model="jogador", name="jogador", ng-options="j.id as j.nome for j in jogadores",ng-change="vizualizarDadosJogador()")
+					option(value="")
+				br
+				label.control-label Nome: {{dadosJogador.nome}}
+				br
+				label.control-label Awards: {{dadosJogador.awards}}
+				br
+				label.control-label Streak: {{streak}}
 

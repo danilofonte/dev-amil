@@ -28,7 +28,7 @@ public class ArmaMaisUsadaView {
 				" join historico.jogadorExecutouAcao jogador"+
 				" join historico.partida partida"+
 				" where partida.id = :idPartida"+
-				" and jogador.nome <> :nome"+
+				" and jogador.nome != :nome"+
 				" group by jogador.nome")
 				.setParameter("idPartida", idPartida)
 				.setParameter("nome",Jogador.JOGADOR_IA).fetch();
@@ -44,8 +44,10 @@ public class ArmaMaisUsadaView {
 				" join historico.partida partida"+
 				" join historico.arma arma"+
 				" where partida.id = :idPartida"+
+				" and jogador.id = :idJogador"+
 				" group by arma.nome")
 				.setParameter("idPartida", idPartida)
+				.setParameter("idJogador", jogador.id)
 				.first();
 		
 

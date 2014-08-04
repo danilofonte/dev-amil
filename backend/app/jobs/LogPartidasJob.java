@@ -12,7 +12,7 @@ import utils.io.FileReaderUtil;
 import utils.partida.LogPartidasUtil;
 
 @OnApplicationStart
-@Every("60s")
+@Every("1h")
 public class LogPartidasJob extends Job {
 	
 	@Override
