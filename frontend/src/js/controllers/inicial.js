@@ -54,14 +54,9 @@
         $scope.mortes = data;
 
         var mortes = [];
-        var nomes = [];
-        var qtds = [];
 
         _.each($scope.mortes,function(jogador){
           var estatistica = [];
-
-          nomes.push(jogador.nome);
-          qtds.push(jogador.qtd);
 
           estatistica.push(jogador.nome);
           estatistica.push(jogador.qtd);
@@ -86,21 +81,7 @@
            }       
         });
 
-        plot1 = $.jqplot('chart1',[qtds], {
-            // Only animate if we're not using excanvas (not in IE 7 or IE 8)..
-            animate: !$.jqplot.use_excanvas,
-            seriesDefaults:{
-                renderer:$.jqplot.BarRenderer,
-                pointLabels: { show: true }
-            },
-            axes: {
-                xaxis: {
-                    renderer: $.jqplot.CategoryAxisRenderer,
-                    ticks: nomes
-                }
-            },
-            highlighter: { show: false }
-        });
+
 
       });
     };
