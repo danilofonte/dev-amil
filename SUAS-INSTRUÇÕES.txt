@@ -19,3 +19,11 @@ executar o comando: grunt
 acessar o diretório backend
 comando: play run #modo dev
 comando: play test #modo teste
+
+#configurando
+acessar o arquivo application conf
+configurar os parametros
+
+log.folder=c:/log
+log.folder.error=c:/log/error
+log.folder.ok=c:/log/ok
