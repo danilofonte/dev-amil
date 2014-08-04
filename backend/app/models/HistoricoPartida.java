@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
@@ -17,6 +18,7 @@ import enums.TipoAcaoEnum;
 import exceptions.ValidationException;
 
 @Entity
+@Table(name="historicopartida")
 public class HistoricoPartida extends Model {
 
 	@Required

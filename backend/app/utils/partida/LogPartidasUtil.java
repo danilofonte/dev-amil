@@ -1,4 +1,6 @@
-package utils.log;
+package utils.partida;
+
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -18,6 +20,7 @@ import models.Jogador;
 import models.Partida;
 import play.Play;
 import utils.DataUtil;
+import utils.TransactionUtil;
 import utils.io.FileReaderUtil;
 import enums.TipoAcaoEnum;
 import enums.TipoArmaEnum;
@@ -25,7 +28,7 @@ import exceptions.ValidationException;
 
 public class LogPartidasUtil {
 
-	private static final Charset CHARSET = Charset.forName(Play.configuration.getProperty("charset.iso"));
+	private static Charset CHARSET = Charset.forName(Play.configuration.getProperty("charset.iso"));
 
 	private static Pattern identificadorPartida = Pattern.compile("[0-9]{8}");
 	private static Pattern dataHoraHistorico = Pattern.compile("[0-9]{2}/[0-9]{2}/[0-9]{4} [0-9]{2}:[0-9]{2}:[0-9]{2}");
@@ -39,13 +42,18 @@ public class LogPartidasUtil {
 
 			try {
 
+				mapJogadores.clear();
+				mapArmas.clear();
+
 				gravarLog(path);
 
 				Files.copy(path, Paths.get(FileReaderUtil.LOG_FOLDER_OK.toString(), path.getFileName().toString()));
+				
+				TransactionUtil.commitTransaction();
 
 			} catch (Exception exc) {
 
-				Files.copy(path, Paths.get(FileReaderUtil.LOG_FOLDER_ERROR.toString(), path.getFileName().toString()));
+				Files.copy(path, Paths.get(FileReaderUtil.LOG_FOLDER_ERROR.toString(), path.getFileName().toString()), REPLACE_EXISTING);
 
 			} finally {
 
@@ -74,8 +82,10 @@ public class LogPartidasUtil {
 
 				if (tipo.equals(TipoAcaoEnum.ENDED)) {
 
+					atualizarAwards(jogadores);
+
 					partida.atualizarHistorico(historico);
-					partida.atualizarListaJogadores(jogadores);
+
 				}
 
 				partidaIniciadaFinalizada(line, partida, tipo);
@@ -147,6 +157,9 @@ public class LogPartidasUtil {
 			HistoricoPartida historicoPartida = new HistoricoPartida(jogadorExecutouAcao, jogadorRecebeuAcao, arma,
 					DataUtil.criarData(dataHoraHistoricoMatcher.group()), tipo);
 
+			jogadorExecutouAcao.historicoJogador.add(historicoPartida);
+			jogadorRecebeuAcao.historicoJogador.add(historicoPartida);
+
 			historico.add(historicoPartida);
 
 		}
@@ -184,6 +197,15 @@ public class LogPartidasUtil {
 
 		return jogador;
 
+	}
+
+	private static void atualizarAwards(List<Jogador> jogadores) {
+
+		for (Jogador jogador : jogadores) {
+
+			jogador.atualizarAwards();
+
+		}
 	}
 
 }

@@ -83,21 +83,6 @@ public class PartidaTest {
 		}
 
 		@Test
-		public void deveAtualizarListaDeJogadoresDaPartida() {
-
-			partida1.save();
-
-			List<Jogador> lista = new ArrayList<Jogador>();
-			lista.add(jogador1);
-			lista.add(jogador2);
-
-			partida1.atualizarListaJogadores(lista);
-
-			assertTrue(partida1.jogadores.size() == 2);
-
-		}
-
-		@Test
 		public void deveFinalizarPartida() {
 
 			historico1.tipo = TipoAcaoEnum.ENDED;
@@ -111,6 +96,20 @@ public class PartidaTest {
 
 		}
 
+		@Test
+		public void deveListarJogadoresDaPartida() {
+			partida1.save();
+
+			List<HistoricoPartida> lista = new ArrayList<HistoricoPartida>();
+			lista.add(historico1);
+			lista.add(historico2);
+
+			partida1.atualizarHistorico(lista);
+			
+			assertTrue(partida1.getJogadoresDaPartida().size() > 0);
+		}
+		
+		
 		@Test(expected = ValidationException.class)
 		public void naoDeveFinalizarPartidaComTipoAcaoErrado() {
 

@@ -38,12 +38,4 @@ public class PartidaBuilder extends DefaultModelBuilder<Partida> {
 
 	}
 
-	public PartidaBuilder comJogadores(List<Jogador> jogadores) {
-
-		model.jogadores = jogadores;
-
-		return this;
-
-	}
-
 }

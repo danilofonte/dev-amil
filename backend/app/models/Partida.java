@@ -8,10 +8,14 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
+
+import org.apache.commons.collections.ListUtils;
 
 import net.sf.oval.constraint.MaxLength;
 import net.sf.oval.constraint.MinLength;
@@ -23,6 +27,7 @@ import enums.TipoAcaoEnum;
 import exceptions.ValidationException;
 
 @Entity
+@Table(name="partida")
 public class Partida extends Model {
 
 	@Unique
@@ -40,15 +45,9 @@ public class Partida extends Model {
 	@Column(name = "dt_fim")
 	public Date dataFim;
 
-	@OneToMany(targetEntity = Jogador.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	public List<Jogador> jogadores;
-
 	@OneToMany(targetEntity = HistoricoPartida.class, mappedBy = "partida", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	public List<HistoricoPartida> historico;	
-	
-	@Transient
-	public Jogador jogador;
-	
+	public List<HistoricoPartida> historico;
+
 	public Partida() {
 		super();
 	}
@@ -86,29 +85,12 @@ public class Partida extends Model {
 		return this.save();
 	}
 
-	public Partida atualizarListaJogadores(List<Jogador> jogadores) {
-
-		if (this.dataFim == null) {
-
-			if (this.jogadores == null)
-				this.jogadores = new ArrayList<Jogador>();
-
-			if (jogadores != null && !jogadores.isEmpty())
-				this.jogadores.addAll(jogadores);
-
-			return this.save();
-
-		}
-
-		return this;
-
-	}
-
 	public Partida finalizarPartida(HistoricoPartida historicoPartida) {
 
-		if (historicoPartida.tipo.equals(TipoAcaoEnum.ENDED) && historicoPartida.identificadorPartida != null && this.identificadorPartida.equals(historicoPartida.identificadorPartida)) {
+		if (historicoPartida.tipo.equals(TipoAcaoEnum.ENDED) && historicoPartida.identificadorPartida != null
+				&& this.identificadorPartida.equals(historicoPartida.identificadorPartida)) {
 			this.dataFim = historicoPartida.dataAcao;
-			
+
 			this.save();
 
 			this.atualizarHistorico(historicoPartida);
@@ -124,7 +106,7 @@ public class Partida extends Model {
 
 		if (historicoPartida.tipo.equals(TipoAcaoEnum.STARTED)) {
 			this.dataInicio = historicoPartida.dataAcao;
-			
+
 			this.save();
 
 			this.atualizarHistorico(historicoPartida);
@@ -134,6 +116,27 @@ public class Partida extends Model {
 		} else
 			throw new ValidationException();
 
+	}
+	
+	public List<Jogador> getJogadoresDaPartida() {
+		
+		List<Jogador> jogadoresExecutouACao = Jogador.find("select jogador from "+
+					HistoricoPartida.class.getSimpleName()+
+					" historico"+
+					" join historico.partida partida"+
+					" join historico.jogadorExecutouAcao jogador"+
+					" where partida.id = :idPartida").setParameter("idPartida", this.id).fetch();
+		
+		List<Jogador> jogadoresRecebeuAcao = Jogador.find("select jogador from "+
+				HistoricoPartida.class.getSimpleName()+
+				" historico"+
+				" join historico.partida partida"+
+				" join historico.jogadorRecebeuAcao jogador"+
+				" where partida.id = :idPartida").setParameter("idPartida", this.id).fetch();
+		
+		return ListUtils.union(jogadoresExecutouACao, jogadoresRecebeuAcao);
+		
+		
 	}
 
 }

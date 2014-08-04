@@ -3,6 +3,7 @@ package models;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
+import javax.persistence.Table;
 
 import play.data.validation.Required;
 import play.data.validation.Unique;
@@ -11,6 +12,7 @@ import utils.ValidationUtil;
 import enums.TipoArmaEnum;
 
 @Entity
+@Table(name="arma")
 public class Arma extends Model {
 	
 	private static final Long INFINITA = 0L;

@@ -2,10 +2,12 @@ package controllers;
 
 import java.util.Collection;
 
+import play.Play;
+import play.mvc.Controller;
+
 import com.google.gson.Gson;
 
 import flexjson.JSONSerializer;
-import play.mvc.Controller;
 
 public class DefaultController extends Controller {
 	
@@ -30,5 +32,13 @@ public class DefaultController extends Controller {
     	String json = js.serialize(models);
     	renderJSON(json);
     }
+    
+    /**
+	 * Redireciona para a página inicial.
+	 */
+	public static void index() {
+		
+		redirect(request.getBase() + Play.ctxPath + "/app/index.html");
+	}
 
 }
