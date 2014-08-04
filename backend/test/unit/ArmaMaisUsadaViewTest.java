@@ -56,7 +56,7 @@ public class ArmaMaisUsadaViewTest  extends DefaultUnitTest {
 
 		partida1.atualizarHistorico(lista);
 		
-		assertTrue(ArmaMaisUsadaView.getEstatisticaArma(partida1.id).size() > 0);
+		assertNotNull(ArmaMaisUsadaView.getEstatisticaArmaDoMelhorJogador(partida1.id));
 	}
 
 }

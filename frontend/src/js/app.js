@@ -8,7 +8,7 @@
 
 			$routeProvider				
 				.when('/', {
-					templateUrl: '/home/inicial.html',
+					templateUrl: 'home/inicial.html',
 					controller: 'InicialCtrl'
 				})				
 				.otherwise({
@@ -16,7 +16,7 @@
 				});
 	}])
 
-  .controller('AppCtrl', ["$scope", "$rootScope", "$location", "$timeout", "config"
+  .controller('AppCtrl', ["$scope", "$rootScope", "$location", "$timeout", "config",
     function($scope, $rootScope, $location, $timeout, config) {
 
 

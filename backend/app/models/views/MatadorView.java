@@ -9,12 +9,12 @@ public class MatadorView {
 	
 	public String nome;
 	
-	public Long qtdMortes;
+	public Long qtd;
 
-	public MatadorView(Long qtdMortes, String nome) {
+	public MatadorView(Long qtd, String nome) {
 		super();
 		this.nome = nome;
-		this.qtdMortes = qtdMortes;
+		this.qtd = qtd;
 	}
 	
 	public static List<MatadorView> getEstatisticaMatador(Long idPartida) {
@@ -41,7 +41,7 @@ public class MatadorView {
 			if (matador == null)
 				matador = matadorView;
 			
-			else if (matador.qtdMortes < matadorView.qtdMortes)
+			else if (matador.qtd < matadorView.qtd)
 				matador = matadorView;
 		}
 		

@@ -38,7 +38,7 @@ public class DefaultController extends Controller {
 	 */
 	public static void index() {
 		
-		redirect(request.getBase() + Play.ctxPath + "public/app/index.html");
+		redirect(request.getBase() + Play.ctxPath + "/public/app/index.html");
 	}
 
 }

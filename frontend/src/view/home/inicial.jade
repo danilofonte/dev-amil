@@ -1,3 +1,17 @@
 
-div(ng-controller="MainCtrl")
-	inicial
+div(ng-controller="InicialCtrl")
+	div.row
+		div.col-md-6.col-lg-6
+			div.form-group
+				label.control-label Partida:
+				select.form-control(ng-model="partida", name="partida", ng-options="p.id as p.identificadorPartida for p in partidas",ng-change="atualizarGraficoGeral()")
+					option(value="")
+				label.control-label Estatisca de Mortes:
+				div#pie1
+				label.control-label Estatisca de Mortes:
+				div#chart1
+				label.control-label Arma mais Usada pelo mlhor jogador
+				label.control-label Nome Arma: {{arma.nome}}
+				label.control-label Qtd uso: {{arma.qtd}}
+				label.control-label Nome Jogador: {{arma.nomeJogador}}
+

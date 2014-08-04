@@ -9,17 +9,18 @@ public class ArmaMaisUsadaView {
 	
 	public String nome;
 	
-	public Long qtdUsosArma;
+	public Long qtd;
 	
-	public ArmaMaisUsadaView(Long qtdUsosArma, String nome) {
+	public String nomeJogador;
+	
+	public ArmaMaisUsadaView(Long qtd, String nome,String nomeJogador) {
 		super();
 		this.nome = nome;
-		this.qtdUsosArma = qtdUsosArma;
+		this.qtd = qtd;
+		this.nomeJogador = nomeJogador;
 	}
 	
-	public static List<ArmaMaisUsadaView> getEstatisticaArma(Long idPartida) {
-		
-		
+	public static ArmaMaisUsadaView getEstatisticaArmaDoMelhorJogador(Long idPartida) {		
 		
 		List<MatadorView> matadores = Jogador.find("select new "+MatadorView.class.getName()+
 				" (count(jogador.id),jogador.nome) from "+HistoricoPartida.class.getSimpleName()+
@@ -37,16 +38,15 @@ public class ArmaMaisUsadaView {
 		Jogador jogador = Jogador.find("nome", matador.nome).first();
 		
 		return  Jogador.find("select new "+ArmaMaisUsadaView.class.getName()+
-				" (count(jogador.id),arma.nome) from "+HistoricoPartida.class.getSimpleName()+
+				" (count(jogador.id),arma.nome,jogador.nome) from "+HistoricoPartida.class.getSimpleName()+
 				" historico"+
 				" join historico.jogadorExecutouAcao jogador"+
 				" join historico.partida partida"+
 				" join historico.arma arma"+
 				" where partida.id = :idPartida"+
-				" and jogador.id = :idJogador"+
 				" group by arma.nome")
 				.setParameter("idPartida", idPartida)
-				.setParameter("idJogador", jogador.id).fetch();
+				.first();
 		
 
 		
