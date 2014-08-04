@@ -1,11 +1,11 @@
 (function(exports, global) {
     global["app"] = exports;
     (function($) {
-        var modulo = angular.module("appModule", [ "ngRoute", "ui.select2", "mascaras", "textAngular" ]);
+        var modulo = angular.module("appModule", [ "ngRoute", "ui.select2", "textAngular" ]);
         modulo.config([ "$routeProvider", function($routeProvider) {
-            $routeProvider.when("", {
-                templateUrl: "",
-                controller: ""
+            $routeProvider.when("/", {
+                templateUrl: "/home/inicial.html",
+                controller: "InicialCtrl"
             }).otherwise({
                 redirectTo: "/"
             });
@@ -19,6 +19,10 @@
             };
             return defaultConfig;
         });
+    })();
+    (function() {
+        var modulo = angular.module("appModule");
+        modulo.controller("InicialCtrl", [ "$scope", "$rootScope", function($scope, $rootScope) {} ]);
     })();
 })({}, function() {
     return this;

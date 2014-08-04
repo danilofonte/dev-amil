@@ -8,3 +8,5 @@ tmp/
 classes/
 eclipse/
 test-result/
+node_modules/
+frontend/node_modules/

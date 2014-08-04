@@ -41,6 +41,8 @@ public class Jogador extends Model {
 	
 	@Transient
 	public List<HistoricoPartida> historicoJogador = new ArrayList<HistoricoPartida>();
+	
+	
 
 	public static Jogador iniciarJogador(String nome) {
 
@@ -158,6 +160,29 @@ public class Jogador extends Model {
 
 		}
 
+	}
+	
+	public Long getStreak(Long idPartida) {
+		
+		Long ultimoStreak = 0L;
+		Long atualStreak = 0L;
+		
+		Partida partida = Partida.findById(idPartida);
+		
+		for (HistoricoPartida historico : partida.historico) {
+			
+			if (historico.jogadorExecutouAcao.equals(this)) 
+				atualStreak += 1;				
+			
+			else if (historico.jogadorRecebeuAcao.equals(this))
+				atualStreak = 0L;
+			
+			ultimoStreak = ultimoStreak <= atualStreak ? atualStreak : ultimoStreak;
+			
+		}
+		
+		return ultimoStreak;
+		
 	}
 
 }

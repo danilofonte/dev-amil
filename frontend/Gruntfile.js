@@ -12,7 +12,8 @@ module.exports = function(grunt) {
 				},
 				files: {
 
-					
+					'<%=backendPath%>/index.html': 'src/view/index.jade',
+          '<%=backendPath%>/home/inicial.html': 'src/view/home/inicial.jade',
 
 				}
 			}			

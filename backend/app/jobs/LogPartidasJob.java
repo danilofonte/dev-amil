@@ -24,7 +24,7 @@ public class LogPartidasJob extends Job {
 		
 		Logger.info("job partidas finalizado com sucesso");
 		
-	}
+}
 	
 	
 	private void jobPrincipal() throws IOException {

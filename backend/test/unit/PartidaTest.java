@@ -110,6 +110,7 @@ public class PartidaTest {
 		}
 		
 		
+		
 		@Test(expected = ValidationException.class)
 		public void naoDeveFinalizarPartidaComTipoAcaoErrado() {
 
